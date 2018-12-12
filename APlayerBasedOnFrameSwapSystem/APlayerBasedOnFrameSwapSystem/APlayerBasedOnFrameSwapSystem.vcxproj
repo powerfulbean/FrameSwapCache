@@ -112,13 +112,13 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\FrameSwapSystem\FrameSwapCache_private.cpp" />
+    <ClCompile Include="..\FrameSwapSystem\FrameSwapCache_public.cpp" />
+    <ClCompile Include="..\FrameSwapSystem\multiThread.cpp" />
     <ClCompile Include="APlayerBasedOnFrameSwapSystem.cpp" />
     <ClCompile Include="Frame.cpp" />
-    <ClCompile Include="FrameSwapCache_private.cpp" />
-    <ClCompile Include="FrameSwapCache_public.cpp" />
     <ClCompile Include="HyperMediaPlayer.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="multiThread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="APlayerBasedOnFrameSwapSystem.h" />
@@ -139,19 +139,14 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\FrameSwapSystem\FrameSwapCache.h" />
+    <QtMoc Include="..\FrameSwapSystem\multiThread.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtMultimedia;$(QTDIR)\include\QtMultimediaWidgets;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtOpenGLExtensions;$(QTDIR)\include\QtPositioning;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtQuickTest;$(QTDIR)\include\QtWidgets</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_MULTIMEDIA_LIB;QT_MULTIMEDIAWIDGETS_LIB;QT_NETWORK_LIB;QT_OPENGL_LIB;QT_OPENGLEXTENSIONS_LIB;QT_POSITIONING_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QUICKWIDGETS_LIB;QT_QMLTEST_LIB;QT_WIDGETS_LIB</Define>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtMultimedia;$(QTDIR)\include\QtMultimediaWidgets;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtOpenGLExtensions;$(QTDIR)\include\QtPositioning;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtQuickTest;$(QTDIR)\include\QtWidgets</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_MULTIMEDIA_LIB;QT_MULTIMEDIAWIDGETS_LIB;QT_NETWORK_LIB;QT_OPENGL_LIB;QT_OPENGLEXTENSIONS_LIB;QT_POSITIONING_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QUICKWIDGETS_LIB;QT_QMLTEST_LIB;QT_WIDGETS_LIB</Define>
+    </QtMoc>
     <ClInclude Include="FrameSwapCache.h" />
-    <QtMoc Include="multiThread.h">
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtMultimedia;$(QTDIR)\include\QtMultimediaWidgets;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtOpenGLExtensions;$(QTDIR)\include\QtPositioning;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtQuickTest;$(QTDIR)\include\QtWidgets</IncludePath>
-      <Define Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_MULTIMEDIA_LIB;QT_MULTIMEDIAWIDGETS_LIB;QT_NETWORK_LIB;QT_OPENGL_LIB;QT_OPENGLEXTENSIONS_LIB;QT_POSITIONING_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QUICKWIDGETS_LIB;QT_QMLTEST_LIB;QT_WIDGETS_LIB</Define>
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtMultimedia;$(QTDIR)\include\QtMultimediaWidgets;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtOpenGLExtensions;$(QTDIR)\include\QtPositioning;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtQuickTest;$(QTDIR)\include\QtWidgets</IncludePath>
-      <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_MULTIMEDIA_LIB;QT_MULTIMEDIAWIDGETS_LIB;QT_NETWORK_LIB;QT_OPENGL_LIB;QT_OPENGLEXTENSIONS_LIB;QT_POSITIONING_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QUICKWIDGETS_LIB;QT_QMLTEST_LIB;QT_WIDGETS_LIB</Define>
-    </QtMoc>
-    <QtMoc Include="Frame.h">
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtMultimedia;$(QTDIR)\include\QtMultimediaWidgets;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtOpenGLExtensions;$(QTDIR)\include\QtPositioning;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtQuickTest;$(QTDIR)\include\QtWidgets</IncludePath>
-      <Define Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_MULTIMEDIA_LIB;QT_MULTIMEDIAWIDGETS_LIB;QT_NETWORK_LIB;QT_OPENGL_LIB;QT_OPENGLEXTENSIONS_LIB;QT_POSITIONING_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QUICKWIDGETS_LIB;QT_QMLTEST_LIB;QT_WIDGETS_LIB</Define>
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtMultimedia;$(QTDIR)\include\QtMultimediaWidgets;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtOpenGLExtensions;$(QTDIR)\include\QtPositioning;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtQuickTest;$(QTDIR)\include\QtWidgets</IncludePath>
-      <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_MULTIMEDIA_LIB;QT_MULTIMEDIAWIDGETS_LIB;QT_NETWORK_LIB;QT_OPENGL_LIB;QT_OPENGLEXTENSIONS_LIB;QT_POSITIONING_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QUICKWIDGETS_LIB;QT_QMLTEST_LIB;QT_WIDGETS_LIB</Define>
-    </QtMoc>
     <ClInclude Include="GeneratedFiles\ui_Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

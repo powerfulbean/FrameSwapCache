@@ -28,6 +28,12 @@
       <Extensions>moc;h;cpp</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Source Files\FrameSwapSystem">
+      <UniqueIdentifier>{17ee8e33-31fe-4b8c-802d-5fd037f588fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\FrameSwapSystem">
+      <UniqueIdentifier>{e063465a-43c4-4ff4-9d24-c0d90f4c19dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,14 +48,14 @@
     <ClCompile Include="HyperMediaPlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="multiThread.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\FrameSwapSystem\FrameSwapCache_private.cpp">
+      <Filter>Source Files\FrameSwapSystem</Filter>
     </ClCompile>
-    <ClCompile Include="FrameSwapCache_public.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\FrameSwapSystem\FrameSwapCache_public.cpp">
+      <Filter>Source Files\FrameSwapSystem</Filter>
     </ClCompile>
-    <ClCompile Include="FrameSwapCache_private.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\FrameSwapSystem\multiThread.cpp">
+      <Filter>Source Files\FrameSwapSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,11 +65,8 @@
     <QtMoc Include="HyperMediaPlayer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="Frame.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="multiThread.h">
-      <Filter>Header Files</Filter>
+    <QtMoc Include="..\FrameSwapSystem\multiThread.h">
+      <Filter>Header Files\FrameSwapSystem</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="FrameSwapCache.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FrameSwapSystem\FrameSwapCache.h">
+      <Filter>Header Files\FrameSwapSystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
