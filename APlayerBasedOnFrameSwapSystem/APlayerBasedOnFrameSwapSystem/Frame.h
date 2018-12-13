@@ -31,8 +31,8 @@
 #include <QPainterPath>
 #include <iostream>
 
-#include "multiThread.h"
-#include "FrameSwapCache.h"
+#include "../FrameSwapSystem/multiThread.h"
+#include "../FrameSwapSystem/FrameSwapCache.h"
 
 typedef unsigned short WORD;
 typedef unsigned char BYTE;
@@ -52,6 +52,7 @@ private:
 	int m_iInterval = 33;
 	const int m_iCaliInterval = 1000;
 	int m_iInitialLoadedFrameSize;
+	int m_iCacheSize;
 
 	bool m_bVideoIsLoaded = false;
 	
@@ -65,6 +66,7 @@ private:
 	QTimer m_caliTimer;
 	QPainter paint;
 	QMediaPlayer *audioPlayer;
+	FrameSwapCache *frameCache;
 
 	BYTE *pRData;
 	BYTE *pGData;
@@ -100,51 +102,6 @@ public:
 signals:
 	void videoLoaded(bool success);
 
-//// START OF Dynamic Loading /////////////////////////////////////////////////////
-private:
-	
-	DWORD ** m_pFrameCache;
-	int * m_pFrameIndexOfCacheBlock;
-	QContiguousCache<int> m_FrameCacheMap;
-	int m_iCacheSize;
-	int m_iStorageThreshold = 8; // 保留一部分使用过的图像
-	int m_iLoadTimerInterval = 300;
-	bool * m_pFrameStateFlag;
-
-	CFramesLoaderThread loaderThread;
-	QTimer loadTimer;
-
-	int m_iHead;
-	int m_iTail;
-	bool m_bIsFull;
-	bool m_bIsAlmostFull;
-
-	int initCacheSystem(int );
-	void freeCacheSystemMemory();
-
-	DWORD * fetchFrameBlock(int iCurrentFrame);
-	void _loadFrames(int startFrame, int iInitialNum);
-	int checkAndLoadFrame(int iCurrentFrame);
-	int checkFrameExisted(int iCurrentFrame);
-	int _setFrameBlock(int, int);
-	int _resetFrameBlock(int iTargetBlock);
-	int _loadFrame(int iCurrentFrameNum, int iTargetBlock);
-	int _setFrameIndexOfCacheBlock(int, int);
-	int _prepop();
-	int _backpop();
-	int _prepend(int);
-	int _append(int);
-	bool _isFull();
-	int _clear();
-
-public:
-	void loadInitialFrame(int iInitialNum);
-	void loadInitialFrame(int, int);
-	int forwardLoadFrameSeq();
-	bool isFull();
-	bool isAlmostFull();
-
-////END OF Dynamic Loading////////////////////////////////////////////////////////////////
 
 signals:
 	void endPlay();
@@ -175,8 +132,7 @@ public slots:
 			timer.stop();
 			m_caliTimer.stop();
 			audioPlayer->stop();
-			loadTimer.stop();
-			_clear();
+			frameCache->clear();
 		}
 		/*if ((checkFrameExisted(m_iCurrentFrame) == -2))
 		{
@@ -184,7 +140,7 @@ public slots:
 			_loadFrames(m_iCurrentFrame, 10);
 		}*/
 		//printf("update CurrentFrame: %d \n", m_iCurrentFrame);
-		checkAndLoadFrame(m_iCurrentFrame);
+		frameCache->checkAndLoadFrame(m_iCurrentFrame);
 		qint64 audiopos = (m_iCurrentFrame * 1000) / 30;
 		if (abs(audioPlayer->position() - audiopos) >= 1500)
 		{
@@ -219,12 +175,12 @@ public slots:
 		{
 			audioPlayer->setPosition(audiopos);
 		}
-		if ( (checkFrameExisted(m_iCurrentFrame) == -1) || (checkFrameExisted(m_iCurrentFrame) == -2) )
+		if ( (frameCache->checkFrameExisted(m_iCurrentFrame) == -1) || (frameCache->checkFrameExisted(m_iCurrentFrame) == -2) )
 		{
 			qDebug() << "return -1 or -2 ";
-			_loadFrames(m_iCurrentFrame, 10);
+			frameCache->loadFrames(m_iCurrentFrame, 10);
 		}
-		checkAndLoadFrame(m_iCurrentFrame);
+		frameCache->checkAndLoadFrame(m_iCurrentFrame);
 
 		emit currentFrameUpdated(m_iCurrentFrame);
 	}
@@ -249,14 +205,12 @@ public slots:
 		{
 			timer.stop();
 			m_caliTimer.stop();
-			loadTimer.stop();
 			audioPlayer->pause();
 		}
 		else
 		{
 			timer.start(m_iInterval);
 			m_caliTimer.start(m_iCaliInterval);
-			loadTimer.start(m_iLoadTimerInterval);
 			audioPlayer->play();
 		}
 		m_bIsStopped = false;
@@ -267,7 +221,6 @@ public slots:
 		audioPlayer->pause();
 		timer.stop();
 		m_caliTimer.stop();
-		loadTimer.stop();
 	}
 
 	void Stop()
@@ -277,13 +230,12 @@ public slots:
 			timer.stop();
 			m_caliTimer.stop();	
 		}
-		loadTimer.stop();
-		loaderThread.exit();
+		frameCache->stopThread();
 		m_iCurrentFrame = 1;
-		checkAndLoadFrame(m_iCurrentFrame);
+		frameCache->checkAndLoadFrame(m_iCurrentFrame);
 		emit currentFrameUpdated(m_iCurrentFrame);
 		audioPlayer->stop();
-		_clear();
+		frameCache->clear();
 		m_bIsStopped = true;
 		update();
 	}
@@ -311,14 +263,6 @@ public slots:
 			m_bAudioLoaded = true;
 			audioPlayer->stop();
 			audioPlayer->setVolume(100);
-		}
-	}
-
-	void startThread()
-	{
-		if (!(isFull()) && !(isAlmostFull()))
-		{
-			loaderThread.start();
 		}
 	}
 

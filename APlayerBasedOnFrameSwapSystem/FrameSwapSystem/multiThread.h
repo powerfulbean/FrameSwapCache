@@ -1,17 +1,17 @@
 #pragma once
 #include <QThread>
-extern class Frame;
+extern class FrameSwapCache;
 
 // Dynamic Loading
 class CFramesLoaderThread : public QThread
 {
 	Q_OBJECT
 public:
-	friend class Frame;
+	friend class FrameSwapCache;
 
-	Frame * objFrame;
+	FrameSwapCache * objFrame;
 
-	void setFrameObject(Frame * input);
+	void setFrameObject(FrameSwapCache * input);
 
 	void run() override;
 

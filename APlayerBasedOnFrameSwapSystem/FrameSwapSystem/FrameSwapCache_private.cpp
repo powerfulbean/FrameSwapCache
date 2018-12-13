@@ -30,22 +30,21 @@ int FrameSwapCache::_loadFrame(int iCurrentFrameNum, int iTargetBlock)
 	//qDebug() << "_loadFrame";
 	FILE *pf = NULL;
 	DWORD uiFrameSize_pixel = m_iFrameWidth * m_iFrameHeight;
-
+	
 	const std::string root = m_sRootFolder;// "D:\\Downloads\\London\\London\\LondonOne\\LondonOne";
 	const std::string suffix = m_sVideoSuffix;// ".rgb";
-
+	
 	DWORD * pFrame = m_pFrameCache[iTargetBlock];
-
+	//qDebug() << "!!!!!!";
 	std::string sFileNum = std::to_string(iCurrentFrameNum);
-
 	fulFillZero(sFileNum);
 
 	std::string sFullFilePath = root + "\\" + m_sVideoName + sFileNum + suffix;
 
-
-	if ((pf = fopen(sFullFilePath.data(), "rb")) == NULL)
+	int errornum = 0;
+	if ((errornum = fopen_s(&pf ,sFullFilePath.data(), "rb")) != 0)
 	{
-		printf("File coulkd not be opened ");
+		printf("File coulkd not be opened, error number: %d ", errornum);
 		qDebug() << sFullFilePath.data() << "\n";
 		return -1;
 	}
@@ -67,7 +66,9 @@ int FrameSwapCache::_loadFrame(int iCurrentFrameNum, int iTargetBlock)
 	}
 	else
 	{
-		printf("_loadFrame: fread failed!\n");
+		printf("_loadFrame: fread failed! return num: %d \n ", n);
+		fputs("Reading error", stderr);
+		perror("The following error occurred");
 		return -1;
 	}
 	fclose(pf);
@@ -81,7 +82,6 @@ int FrameSwapCache::_forwardLoadFrameSeq()
 {
 	int iNextFrameNum = (m_pFrameIndexOfCacheBlock[(m_iTail - 1 + m_iCacheSize) % m_iCacheSize] + 1) % (m_iMaxFrame + 1);
 
-
 	if (iNextFrameNum == 0) //&& (m_pFrameIndexOfCacheBlock[(m_iTail - 1 + m_iCacheSize) % m_iCacheSize] != -1))
 	{
 		if (m_pFrameIndexOfCacheBlock[(m_iTail - 1 + m_iCacheSize) % m_iCacheSize] == -1)
@@ -91,8 +91,7 @@ int FrameSwapCache::_forwardLoadFrameSeq()
 				printf("it is true, ");
 			}
 			printf("forwardLoadFrame race condition \n");
-			qDebug() << "last Frame in Map is: " << m_FrameCacheMap.lastIndex() + 1;
-			iNextFrameNum = (m_FrameCacheMap.lastIndex() + 1) + 1;
+			iNextFrameNum = lastIndex() + 1;
 		}
 		else
 		{
@@ -104,13 +103,7 @@ int FrameSwapCache::_forwardLoadFrameSeq()
 	//printf("current Frame: %d, current head: %d, current tail: %d, last loaded frame: %d, loading Frame: %d | ", m_iCurrentFrame, m_iHead, m_iTail, m_pFrameIndexOfCacheBlock[(m_iTail - 1 + m_iCacheSize) % m_iCacheSize], iNextFrameNum);
 	//printf("current Frame: %d, current head frame: %d, current tail frame: %d, loading Frame: %d \n ", m_iCurrentFrame, m_pFrameIndexOfCacheBlock[m_iHead], m_pFrameIndexOfCacheBlock[(m_iTail - 1 + m_iCacheSize) % m_iCacheSize],iNextFrameNum);
 
-	if ((iNextFrameNum - 1) != m_FrameCacheMap.lastIndex() + 1) // ID + 1 = true frame number
-	{
-		qDebug() << "forward function error!\n: " << "iNextFrameNum - 1: " << iNextFrameNum - 1 << " m_FrameCacheMap.lastIndex() + 1" << m_FrameCacheMap.lastIndex() + 1;
-		return -2;
-		//_clear();
-	}
-	m_FrameCacheMap.append(append(iNextFrameNum));
+	append(iNextFrameNum);
 
 	//qDebug() << "forward: map index range: " << "first: " << m_FrameCacheMap.firstIndex() << " to " << "last: " << m_FrameCacheMap.lastIndex() << "  |  Content : " << m_FrameCacheMap.first() << " to " << m_FrameCacheMap.last();
 	return 0;

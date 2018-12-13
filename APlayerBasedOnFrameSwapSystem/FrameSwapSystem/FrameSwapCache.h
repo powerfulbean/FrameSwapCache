@@ -23,9 +23,7 @@ private:
 	DWORD * pFrame;
 	DWORD ** m_pFrameCache;
 	int * m_pFrameIndexOfCacheBlock;
-	int * m_pContiguousEleArray;
 
-	QContiguousCache<int> m_FrameCacheMap;
 	CFramesLoaderThread loaderThread;
 
 	int m_iCacheSize;
@@ -36,21 +34,18 @@ private:
 	int m_iMaxFrame;
 
 	std::string m_sRootFolder = "";
-	std::string m_sVideoSuffix = "";
+	std::string m_sVideoSuffix = ".rgb";
 	std::string m_sVideoName = "";
 
 
 	int m_iHead;
 	int m_iTail;
-	int m_iFirstIndex;
-	int m_iLastIndex;
 	int m_iCurrentMaxIndex;
 
 	bool m_bIsFull;
 	bool m_bIsAlmostFull;
+	bool m_bIsEmpty;
 
-
-	int _forwardLoadFrameSeq();
 	int _resetFrameBlock(int iTargetBlock);
 	int _setFrameBlock(int, int);
 	int _setFrameIndexOfCacheBlock(int, int);
@@ -58,6 +53,9 @@ private:
 	void _startThread();
 
 public:
+	FrameSwapCache(int, int, int);
+	~FrameSwapCache();
+
 	int initCacheSystem(int);
 	void freeCacheSystemMemory();
 
@@ -66,11 +64,12 @@ public:
 
 	void loadInitialFrame(int iInitialNum);
 	void loadInitialFrame(int, int);
+	void loadFrames(int startFrameNum, int iInitialNum);
 	
 	bool isFull();
 	bool isAlmostFull();
+	bool isEmpty();
 	
-	void loadFrames(int startFrameNum, int iInitialNum);
 	int checkAndLoadFrame(int iFrameNum);
 	int checkFrameExisted(int iFrameNum);
 	
@@ -81,37 +80,22 @@ public:
 	int insert(int iIndex, int iFrameNum);
 	int clear();
 
-
+	
 	bool containsIndex(int iIndex);
 	int firstIndex();
 	int lastIndex();
 	int currentMaxIndex();
 	DWORD * first();
 	DWORD * last();
+	DWORD * takeFirst();
+	DWORD * takseLast();
+	DWORD * at(int);
 
 	DWORD * fetchFrameBlock(int iFrameNum);
+	int _forwardLoadFrameSeq();
+
+	void startThread();
+	void stopThread();
 };
 
-void fulFillZero(std::string & sNum)
-{
-	//qDebug() << "sNum: " << sNum.data() << endl;
-	if (sNum.size() == 1)
-	{
-		std::string sFill("000");
-		sNum = sFill + sNum;
-	}
-	else if (sNum.size() == 2)
-	{
-		std::string sFill("00");
-		sNum = sFill + sNum;
-	}
-	else if (sNum.size() == 3)
-	{
-		std::string sFill("0");
-		sNum = sFill + sNum;
-	}
-	else if (sNum.size() == 4)
-	{
-		return;
-	}
-}
+void fulFillZero(std::string & sNum);

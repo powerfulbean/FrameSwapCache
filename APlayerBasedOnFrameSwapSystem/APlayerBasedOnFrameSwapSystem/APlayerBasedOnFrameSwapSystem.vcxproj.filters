@@ -68,6 +68,9 @@
     <QtMoc Include="..\FrameSwapSystem\multiThread.h">
       <Filter>Header Files\FrameSwapSystem</Filter>
     </QtMoc>
+    <QtMoc Include="Frame.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="APlayerBasedOnFrameSwapSystem.ui">

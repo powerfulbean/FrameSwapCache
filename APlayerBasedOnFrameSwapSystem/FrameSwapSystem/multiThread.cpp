@@ -1,7 +1,7 @@
 #include "multiThread.h"
-#include "Frame.h"
+#include "FrameSwapCache.h"
 
-void CFramesLoaderThread:: setFrameObject(Frame * input)
+void CFramesLoaderThread:: setFrameObject(FrameSwapCache * input)
 {
 	objFrame = input;
 }
@@ -43,7 +43,7 @@ void CFramesLoaderThread:: jobForFrame()
 				return;
 			}
 			printf(">");
-			objFrame->forwardLoadFrameSeq();
+			objFrame->_forwardLoadFrameSeq();
 			if (!isInterruptionRequested())
 			{
 				m_isStopped = false;
