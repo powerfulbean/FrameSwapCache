@@ -89,9 +89,6 @@
     <ClInclude Include="GeneratedFiles\ui_Player.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="FrameSwapCache.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\FrameSwapSystem\FrameSwapCache.h">
       <Filter>Header Files\FrameSwapSystem</Filter>
     </ClInclude>
